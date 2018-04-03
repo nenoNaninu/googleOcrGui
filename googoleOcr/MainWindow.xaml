@@ -8,6 +8,7 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="350" Width="525">
 
+    
     <Window.Resources>
         <x:Array x:Key="ScaleItems" Type="sys:Int32">
             <sys:Int32>200</sys:Int32>
@@ -17,6 +18,8 @@
             <sys:Int32>25</sys:Int32>
         </x:Array>
     </Window.Resources>
+    
+    
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
@@ -26,6 +29,11 @@
                 SelectedValue="{Binding Scale, UpdateSourceTrigger=PropertyChanged}"
                 Width="70" Height="23" Margin="5" HorizontalAlignment="Left"/>
         <ScrollViewer x:Name="ScrollView" Grid.Row="1" Height="280" Width="500" VerticalScrollBarVisibility ="Visible" HorizontalScrollBarVisibility ="Visible">
+            <Canvas Height="{Binding CanvasHeight}" Width="{Binding CanvasWidth}">
+                
+            </Canvas>
         </ScrollViewer>
     </Grid>
+    
+    
 </Window>
