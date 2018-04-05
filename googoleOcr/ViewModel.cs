@@ -15,15 +15,16 @@ namespace googoleOcr
         
         Model model;
         ScrollViewer scrollView;
-        public ViewModel(ScrollViewer scrollView)
+        public ViewModel(ScrollViewer scrollView,Canvas canvasInScroll)
         {
             this.scrollView = scrollView;
-            model = new Model();
+            model = new Model(this);
             //model.GetOcrData();
             canvasHeight = (int)scrollView.ActualHeight;
             canvasWidth = (int)scrollView.ActualWidth;
         }
-        int canvasHeight;
+
+        private int canvasHeight;
         public int CanvasHeight
         {
             get { return canvasHeight; }
@@ -34,7 +35,7 @@ namespace googoleOcr
             }
         }
 
-        int canvasWidth;
+        private int canvasWidth;
         public int CanvasWidth
         {
             get { return canvasWidth; }
