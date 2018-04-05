@@ -8,7 +8,7 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="350" Width="525">
 
-    
+
     <Window.Resources>
         <x:Array x:Key="ScaleItems" Type="sys:Int32">
             <sys:Int32>200</sys:Int32>
@@ -18,7 +18,7 @@
             <sys:Int32>25</sys:Int32>
         </x:Array>
     </Window.Resources>
-    
+
     <Grid x:Name="Grid">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
@@ -33,6 +33,20 @@
                     <ScaleTransform ScaleX="{Binding CanvasScale,UpdateSourceTrigger=PropertyChanged}" ScaleY="{Binding CanvasScale,UpdateSourceTrigger=Explicit}"/>
                 </Canvas.RenderTransform>
                 <Button x:Name="Button" Click="Button_Click" Canvas.Left="0" Canvas.Top="0" Width="20" Height="30"/>
+                <Thumb Canvas.Left="37" Canvas.Top="30" Height="70" Name="mark"  Width="70" Background="LightBlue"
+                    DragCompleted="mark_DragCompleted"
+                    DragStarted="mark_DragStarted"
+                    DragDelta="mark_DragDelta"
+                    >
+                    <Thumb.Template>
+                        <ControlTemplate TargetType="Thumb">
+                            <Grid>
+                                <Ellipse Fill="LightBlue" Width="50" Height="50" />
+                                <TextBox Text="hoge" Width="30" Height="30" />
+                            </Grid>
+                        </ControlTemplate>
+                    </Thumb.Template>
+                </Thumb>
             </Canvas>
         </ScrollViewer>
     </Grid>
