@@ -92,7 +92,7 @@ namespace googoleOcr
                 childTextBlock.Text = boundingTextList[i].Text;
                 Debug.Print(boundingTextList[i].Text);
                 childTextBlock.TextWrapping = TextWrapping.Wrap;
-                childTextBlock.Width = boundingTextList[i].Width;
+                childTextBlock.Width = boundingTextList[i].Width+30;
                 if (boundingTextList[i].Height <30)
                 {
                     childTextBlock.Height = 30;
@@ -106,10 +106,11 @@ namespace googoleOcr
                 rectAngle.Stroke = new SolidColorBrush(Colors.Black);
                 rectAngle.Width = boundingTextList[i].Width;
                 rectAngle.Height = boundingTextList[i].Height;
-                Canvas.SetLeft(rectAngle, boundingTextList[i].Left*1.5);
-                Canvas.SetTop(rectAngle, boundingTextList[i].Top*1.5);
-                Canvas.SetLeft(childTextBlock, boundingTextList[i].Left*1.5);
-                Canvas.SetTop(childTextBlock, boundingTextList[i].Top*1.5);
+                float bairitu = 1.8f;
+                Canvas.SetLeft(rectAngle, boundingTextList[i].Left*bairitu);
+                Canvas.SetTop(rectAngle, boundingTextList[i].Top*bairitu);
+                Canvas.SetLeft(childTextBlock, boundingTextList[i].Left*bairitu);
+                Canvas.SetTop(childTextBlock, boundingTextList[i].Top*bairitu);
                 this.canvasInScroll.Children.Add(rectAngle);
                 this.canvasInScroll.Children.Add(childTextBlock);
             }
