@@ -6,24 +6,29 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Diagnostics;
+using System.Windows.Media;
 
 namespace googoleOcr
 {
     class ViewModel : INotifyPropertyChanged
     {
-        public Model Model{ get { return this.model; } }
-        
+        public Model Model { get { return this.model; } }
+
         Model model;
         ScrollViewer scrollView;
-        public ViewModel(ScrollViewer scrollView)
+        Canvas canvasInScroll;
+        public ViewModel(ScrollViewer scrollView, Canvas canvasInScroll)
         {
             this.scrollView = scrollView;
-            model = new Model();
+            this.canvasInScroll = canvasInScroll;
+            model = new Model(this);
             //model.GetOcrData();
             canvasHeight = (int)scrollView.ActualHeight;
             canvasWidth = (int)scrollView.ActualWidth;
         }
-        int canvasHeight;
+
+        private int canvasHeight;
         public int CanvasHeight
         {
             get { return canvasHeight; }
@@ -34,7 +39,7 @@ namespace googoleOcr
             }
         }
 
-        int canvasWidth;
+        private int canvasWidth;
         public int CanvasWidth
         {
             get { return canvasWidth; }
@@ -65,7 +70,6 @@ namespace googoleOcr
 
         double canvasScale = 1.0;//少数による倍率。
 
-
         public double CanvasScale
         {
             get
@@ -75,6 +79,41 @@ namespace googoleOcr
                 canvasScale = value / 100f;
                 OnPropertyChanged(nameof(CanvasScale));
             }
+        }
+
+        public void excuteGoogleOcr(string fileName)
+        {
+            var boundingTextList = model.GetOcrData(fileName);
+
+            Debug.Print("==================");
+            for(int i = 0; i < boundingTextList.Count; i++)
+            {
+                TextBox childTextBlock = new TextBox();
+                childTextBlock.Text = boundingTextList[i].Text;
+                Debug.Print(boundingTextList[i].Text);
+                childTextBlock.TextWrapping = TextWrapping.Wrap;
+                childTextBlock.Width = boundingTextList[i].Width;
+                if (boundingTextList[i].Height <30)
+                {
+                    childTextBlock.Height = 30;
+                }
+                else
+                {
+                    childTextBlock.Height = boundingTextList[i].Height;
+                }
+                childTextBlock.Name = "boundingTextBox" + i.ToString();
+                System.Windows.Shapes.Rectangle rectAngle = new System.Windows.Shapes.Rectangle();
+                rectAngle.Stroke = new SolidColorBrush(Colors.Black);
+                rectAngle.Width = boundingTextList[i].Width;
+                rectAngle.Height = boundingTextList[i].Height;
+                Canvas.SetLeft(rectAngle, boundingTextList[i].Left*1.5);
+                Canvas.SetTop(rectAngle, boundingTextList[i].Top*1.5);
+                Canvas.SetLeft(childTextBlock, boundingTextList[i].Left*1.5);
+                Canvas.SetTop(childTextBlock, boundingTextList[i].Top*1.5);
+                this.canvasInScroll.Children.Add(rectAngle);
+                this.canvasInScroll.Children.Add(childTextBlock);
+            }
+            Debug.Print("==================");
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
