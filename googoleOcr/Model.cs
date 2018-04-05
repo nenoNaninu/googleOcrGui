@@ -12,19 +12,29 @@ namespace googoleOcr
 {
     class Model
     {
-        ViewModel parentViewModel;
+        List<BoundingText> boundingTextList = null;
+        ViewModel parentViewModel = null;
+
+        public List<BoundingText> BoundingTextList
+        {
+            get { return boundingTextList; }
+        }
+
         public Model(ViewModel viewModel)
         {
             this.parentViewModel = viewModel;
+            this.boundingTextList = new List<BoundingText>();
         }
-        public void GetOcrData()
+
+        public List<BoundingText> GetOcrData(string fileName)
         {
-            sysDraw.Image img = new sysDraw.Bitmap("C:\\Users\\naritomi\\Desktop\\AzureTest\\ocrSamples\\cap2.PNG");
-            this.parentViewModel.CanvasWidth = img.Width;
-            this.parentViewModel.CanvasHeight = img.Height;
+
+            sysDraw.Image img = new sysDraw.Bitmap(fileName);
+            this.parentViewModel.CanvasWidth = (int)(img.Width*1.5f);
+            this.parentViewModel.CanvasHeight = (int)(img.Height*1.5f);
             
             ImageAnnotatorClient client = ImageAnnotatorClient.Create();
-            var imageForGoogle = Image.FromFile("C:\\Users\\naritomi\\Desktop\\AzureTest\\ocrSamples\\cap2.PNG");
+            var imageForGoogle = Image.FromFile(fileName);
             TextAnnotation response = client.DetectDocumentText(imageForGoogle);
             foreach (var page in response.Pages)
             {
@@ -36,13 +46,22 @@ namespace googoleOcr
                     {
                         box = string.Join(" - ", paragraph.BoundingBox.Vertices.Select(v => $"({v.X}, {v.Y})"));
                         Debug.Print($"  Paragraph at {box}");
+                        string text = "";
                         foreach (var word in paragraph.Words)
                         {
                             Debug.Print($"    Word: {string.Join("", word.Symbols.Select(s => s.Text))}");
+                            text += string.Join("", word.Symbols.Select(s => s.Text));
                         }
+                        int top = paragraph.BoundingBox.Vertices[0].Y;
+                        int left = paragraph.BoundingBox.Vertices[0].X;
+                        int height = paragraph.BoundingBox.Vertices[2].Y - top;
+                        int width = paragraph.BoundingBox.Vertices[2].X - left;
+                        this.boundingTextList.Add(new BoundingText(text, left, top, width, height));
                     }
                 }
             }
+
+            return this.boundingTextList;
         }
     }
 }

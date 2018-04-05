@@ -14,7 +14,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-
+using Microsoft.WindowsAPICodePack.Dialogs;
 
 namespace googoleOcr
 {
@@ -24,16 +24,30 @@ namespace googoleOcr
     public partial class MainWindow : Window
     {
         ViewModel viewModel;
+        string fileName = null;
+
         public MainWindow()
         {
             InitializeComponent();
             viewModel = new ViewModel(ScrollView, CanvasInScrollView);
             this.DataContext = this.viewModel;
+            OcrButton.IsEnabled = false;
+        }
+
+        private void Openfile_button_Click(object sender, RoutedEventArgs e)
+        {
+            var dialog = new CommonOpenFileDialog("フォルダの選択");
+            if (dialog.ShowDialog() == CommonFileDialogResult.Ok)
+            {
+                this.fileName = dialog.FileName;
+                OcrButton.IsEnabled = true;
+            }
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            viewModel.Model.GetOcrData();
+            viewModel.excuteGoogleOcr(this.fileName);
+            
         }
 
         private void mark_DragStarted(object sender,
