@@ -14,80 +14,25 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
+
 namespace googoleOcr
 {
     /// <summary>
     /// MainWindow.xaml の相互作用ロジック
     /// </summary>
-    public partial class MainWindow : Window, INotifyPropertyChanged
+    public partial class MainWindow : Window
     {
+        ViewModel viewModel;
         public MainWindow()
         {
             InitializeComponent();
-            this.DataContext = this;
-            canvasHeight = (int)ScrollView.ActualHeight;
-            canvasWidth = (int)ScrollView.ActualWidth;
+            viewModel = new ViewModel(ScrollView);
+            this.DataContext = this.viewModel;
         }
 
-        int canvasHeight;
-        public int CanvasHeight
+        private void Button_Click(object sender, RoutedEventArgs e)
         {
-            get { return canvasHeight; }
-            set
-            {
-                canvasHeight = value;
-                OnPropertyChanged(nameof(CanvasHeight));
-            }
-        }
-
-        int canvasWidth;
-        public int CanvasWidth
-        {
-            get { return canvasWidth; }
-            set
-            {
-                canvasWidth = value;
-                OnPropertyChanged(nameof(CanvasWidth));
-            }
-        }
-
-        int scale = 100;//これはパーセント。
-
-        public int Scale
-        {
-            get
-            {
-                return scale;
-            }
-            set
-            {
-                scale = value;
-                CanvasScale = value;
-                OnPropertyChanged("Scale");
-                CanvasWidth = (int)(CanvasScale * ScrollView.ActualWidth);
-                CanvasHeight = (int)(CanvasScale * ScrollView.ActualHeight);
-            }
-        }
-
-        double canvasScale = 1.0;//少数による倍率。
-
-
-        public double CanvasScale
-        {
-            get
-            { return canvasScale; }
-            set
-            {
-                canvasScale = value / 100f;
-                OnPropertyChanged(nameof(CanvasScale));
-            }
-        }
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        private void OnPropertyChanged(string name)
-        {
-            PropertyChanged(this, new PropertyChangedEventArgs(name));
+            //viewModel.Model.GetOcrData();
         }
     }
 }
