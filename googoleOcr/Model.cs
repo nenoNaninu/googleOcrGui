@@ -10,15 +10,15 @@ namespace googoleOcr
 {
     class Model
     {
-        public void GetOcrData()
-        {
-            var client = ImageAnnotatorClient.Create();
-            var image = Image.FromFile("C: \\Users\\naritomi\\Desktop\\AzureTest\\ocrSamples\\cap2.PNG");
-            var response = client.DetectText(image);
-            foreach(var it in response)
-            {
-                MessageBox.Show(it.ToString());
-            }
-        }
+        //public void GetOcrData()
+        //{
+        //    var client = ImageAnnotatorClient.Create();
+        //    var image = Image.FromFile("C: \\Users\\naritomi\\Desktop\\AzureTest\\ocrSamples\\cap2.PNG");
+        //    var response = client.DetectText(image);
+        //    foreach(var it in response)
+        //    {
+        //        MessageBox.Show(it.ToString());
+        //    }
+        //}
     }
 }
