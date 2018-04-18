@@ -9,6 +9,7 @@ using System.Windows.Controls;
 using System.Diagnostics;
 using System.Windows.Media;
 using System.IO;
+using Reactive.Bindings;
 
 namespace googoleOcr
 {
@@ -25,31 +26,42 @@ namespace googoleOcr
             this.canvasInScroll = canvasInScroll;
             model = new Model(this);
             //model.GetOcrData();
-            canvasHeight = (int)scrollView.ActualHeight;
-            canvasWidth = (int)scrollView.ActualWidth;
+            CanvasHeight.Value = (int)scrollView.ActualHeight;
+            CanvasWidth.Value = (int)scrollView.ActualWidth;
+            //Scale.Subscribe(x =>
+            //{
+            //    MessageBox.Show(x.ToString());
+            //    Scale.Value = x;
+            //    CanvasScale.Value = x/100f;
+            //    CanvasWidth.Value = (int)(CanvasScale.Value * scrollView.ActualWidth);
+            //    CanvasHeight.Value = (int)(CanvasScale.Value * scrollView.ActualHeight);
+            //});
         }
 
-        private int canvasHeight;
-        public int CanvasHeight
-        {
-            get { return canvasHeight; }
-            set
-            {
-                canvasHeight = value;
-                OnPropertyChanged(nameof(CanvasHeight));
-            }
-        }
+        //private int canvasHeight;
+        //public int CanvasHeight
+        //{
+        //    get { return canvasHeight; }
+        //    set
+        //    {
+        //        canvasHeight = value;
+        //        OnPropertyChanged(nameof(CanvasHeight));
+        //    }
+        //}
 
-        private int canvasWidth;
-        public int CanvasWidth
-        {
-            get { return canvasWidth; }
-            set
-            {
-                canvasWidth = value;
-                OnPropertyChanged(nameof(CanvasWidth));
-            }
-        }
+        public ReactiveProperty<int> CanvasHeight { get; set; } = new ReactiveProperty<int>();
+
+        //private int canvasWidth;
+        //public int CanvasWidth
+        //{
+        //    get { return canvasWidth; }
+        //    set
+        //    {
+        //        canvasWidth = value;
+        //        OnPropertyChanged(nameof(CanvasWidth));
+        //    }
+        //}
+        public ReactiveProperty<int> CanvasWidth { get; set; } = new ReactiveProperty<int>();
 
         int scale = 100;//これはパーセント。
 
@@ -62,12 +74,16 @@ namespace googoleOcr
             set
             {
                 scale = value;
-                CanvasScale = value;
+                CanvasScale = value/100f;
+                MessageBox.Show(CanvasScale.ToString());
                 OnPropertyChanged("Scale");
-                CanvasWidth = (int)(CanvasScale * scrollView.ActualWidth);
-                CanvasHeight = (int)(CanvasScale * scrollView.ActualHeight);
+                CanvasWidth.Value = (int)(CanvasScale * scrollView.ActualWidth);
+                CanvasHeight.Value = (int)(CanvasScale * scrollView.ActualHeight);
             }
         }
+
+        //public ReactiveProperty<int> Scale = new ReactiveProperty<int>(100);
+
 
         double canvasScale = 1.0;//少数による倍率。
 
@@ -77,10 +93,11 @@ namespace googoleOcr
             { return canvasScale; }
             set
             {
-                canvasScale = value / 100f;
+                canvasScale = value;
                 OnPropertyChanged(nameof(CanvasScale));
             }
         }
+        //public ReactiveProperty<double> CanvasScale = new ReactiveProperty<double>(1f);
 
         List<MoveableTextbox> moveableTextBoxList = new List<MoveableTextbox>();
         public void excuteGoogleOcr(string fileName)

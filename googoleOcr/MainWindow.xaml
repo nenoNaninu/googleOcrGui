@@ -32,9 +32,9 @@
         </StackPanel>
 
         <ScrollViewer x:Name="ScrollView" Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" VerticalScrollBarVisibility ="Visible" HorizontalScrollBarVisibility ="Visible">
-            <Canvas x:Name="CanvasInScrollView" Height="{Binding CanvasHeight}" Width="{Binding CanvasWidth}">
+            <Canvas x:Name="CanvasInScrollView" Height="{Binding CanvasHeight,Mode=OneWay}" Width="{Binding CanvasWidth,Mode=OneWay}">
                 <Canvas.RenderTransform>
-                    <ScaleTransform ScaleX="{Binding CanvasScale,UpdateSourceTrigger=PropertyChanged}" ScaleY="{Binding CanvasScale,UpdateSourceTrigger=Explicit}"/>
+                    <ScaleTransform ScaleX="{Binding CanvasScale}" ScaleY="{Binding CanvasScale}"/>
                 </Canvas.RenderTransform>
             </Canvas>
         </ScrollViewer>

@@ -31,8 +31,8 @@ namespace googoleOcr
 
             sysDraw.Image img = new sysDraw.Bitmap(fileName);
             float bairitu = 1.8f;
-            this.parentViewModel.CanvasWidth = (int)(img.Width*bairitu);
-            this.parentViewModel.CanvasHeight = (int)(img.Height*bairitu);
+            this.parentViewModel.CanvasWidth.Value = (int)(img.Width*bairitu);
+            this.parentViewModel.CanvasHeight.Value = (int)(img.Height*bairitu);
             
             ImageAnnotatorClient client = ImageAnnotatorClient.Create();
             var imageForGoogle = Image.FromFile(fileName);

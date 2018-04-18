@@ -46,8 +46,8 @@ namespace googoleOcr
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
+            this.CanvasInScrollView.Children.Clear();
             viewModel.excuteGoogleOcr(this.fileName);
-            
         }
     }
 }
