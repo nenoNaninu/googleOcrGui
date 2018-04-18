@@ -25,12 +25,10 @@ namespace googoleOcr
             this.scrollView = scrollView;
             this.canvasInScroll = canvasInScroll;
             model = new Model(this);
-            //model.GetOcrData();
             CanvasHeight.Value = (int)scrollView.ActualHeight;
             CanvasWidth.Value = (int)scrollView.ActualWidth;
             Scale.Subscribe(x =>
             {
-                MessageBox.Show(x.ToString());
                 Scale.Value = x;
                 CanvasScale.Value = x / 100f;
                 CanvasWidth.Value = (int)(CanvasScale.Value * scrollView.ActualWidth);
@@ -38,65 +36,12 @@ namespace googoleOcr
             });
         }
 
-        //private int canvasHeight;
-        //public int CanvasHeight
-        //{
-        //    get { return canvasHeight; }
-        //    set
-        //    {
-        //        canvasHeight = value;
-        //        OnPropertyChanged(nameof(CanvasHeight));
-        //    }
-        //}
-
         public ReactiveProperty<int> CanvasHeight { get; set; } = new ReactiveProperty<int>();
-
-        //private int canvasWidth;
-        //public int CanvasWidth
-        //{
-        //    get { return canvasWidth; }
-        //    set
-        //    {
-        //        canvasWidth = value;
-        //        OnPropertyChanged(nameof(CanvasWidth));
-        //    }
-        //}
+ 
         public ReactiveProperty<int> CanvasWidth { get; set; } = new ReactiveProperty<int>();
-
-        //int scale = 100;//これはパーセント。
-
-        //public int Scale
-        //{
-        //    get
-        //    {
-        //        return scale;
-        //    }
-        //    set
-        //    {
-        //        scale = value;
-        //        CanvasScale = value / 100f;
-        //        MessageBox.Show(CanvasScale.ToString());
-        //        OnPropertyChanged("Scale");
-        //        CanvasWidth.Value = (int)(CanvasScale * scrollView.ActualWidth);
-        //        CanvasHeight.Value = (int)(CanvasScale * scrollView.ActualHeight);
-        //    }
-        //}
 
         public ReactiveProperty<int> Scale { get; set; } = new ReactiveProperty<int>(100);
 
-
-        //double canvasScale = 1.0;//少数による倍率。
-
-        //public double CanvasScale
-        //{
-        //    get
-        //    { return canvasScale; }
-        //    set
-        //    {
-        //        canvasScale = value;
-        //        OnPropertyChanged(nameof(CanvasScale));
-        //    }
-        //}
         public ReactiveProperty<double> CanvasScale { get; set; } = new ReactiveProperty<double>(1f);
 
         List<MoveableTextbox> moveableTextBoxList = new List<MoveableTextbox>();
