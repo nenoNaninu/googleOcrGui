@@ -8,7 +8,6 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="350" Width="525">
 
-
     <Window.Resources>
         <x:Array x:Key="ScaleItems" Type="sys:Int32">
             <sys:Int32>200</sys:Int32>
@@ -37,23 +36,6 @@
                 <Canvas.RenderTransform>
                     <ScaleTransform ScaleX="{Binding CanvasScale,UpdateSourceTrigger=PropertyChanged}" ScaleY="{Binding CanvasScale,UpdateSourceTrigger=Explicit}"/>
                 </Canvas.RenderTransform>
-
-                <!--<Thumb Canvas.Left="31" Canvas.Top="84" Height="70" Name="mark"  Width="70" Background="LightBlue"
-                    DragCompleted="mark_DragCompleted"
-                    DragStarted="mark_DragStarted"
-                    DragDelta="mark_DragDelta"
-                    >
-                    <Thumb.Template>
-                        <ControlTemplate TargetType="Thumb">
-                            <Grid>
-                                <Rectangle x:Name="markRect" Stroke="Black" Fill="White" Width="50" Height="50" />
-                                <TextBox Text="hoge" Width="30" Height="30" />
-                            </Grid>
-                        </ControlTemplate>
-                    </Thumb.Template>
-                </Thumb>-->
-                <!--<MoveableTextbox/>-->
-                <!--<local:MoveableTextbox/>-->
             </Canvas>
         </ScrollViewer>
     </Grid>

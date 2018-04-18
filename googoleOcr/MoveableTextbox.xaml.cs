@@ -23,10 +23,7 @@ namespace googoleOcr
         public ReactiveProperty<int> TextBoxWidth { get; } = new ReactiveProperty<int>(140);
         public ReactiveProperty<int> TextBoxHeight { get; } = new ReactiveProperty<int>(70);
         public ReactiveProperty<string> TextContent { get; } = new ReactiveProperty<string>("Unity CHAN!");
-        public DragCompletedEventHandler DragCompletedEvent { get; set; } = (sender, e) => { };
-        public DragStartedEventHandler DragStartedEvent { get; set; } = (sender, e) => { };
-        public DragDeltaEventHandler DragDeltaEvent { get; set; } = (sender, e) => { };
-
+    
         private void DragDelta(object sender,DragDeltaEventArgs e)
         {
             Canvas.SetLeft(this, Canvas.GetLeft(this) + e.HorizontalChange);

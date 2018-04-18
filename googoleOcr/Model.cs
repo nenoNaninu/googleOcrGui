@@ -61,7 +61,6 @@ namespace googoleOcr
                     }
                 }
             }
-
             return this.boundingTextList;
         }
     }

@@ -8,6 +8,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Diagnostics;
 using System.Windows.Media;
+using System.IO;
 
 namespace googoleOcr
 {
@@ -85,8 +86,9 @@ namespace googoleOcr
         public void excuteGoogleOcr(string fileName)
         {
             var boundingTextList = model.GetOcrData(fileName);
-
-            for(int i = 0; i < boundingTextList.Count; i++)
+            FileStream fs = new FileStream("ocrResult.txt",FileMode.Create);
+            StreamWriter sw = new StreamWriter(fs);
+            for (int i = 0; i < boundingTextList.Count; i++)
             {
                 MoveableTextbox moveableTextBox = new MoveableTextbox();
                 moveableTextBoxList.Add(moveableTextBox);
@@ -95,38 +97,13 @@ namespace googoleOcr
                 Canvas.SetLeft(moveableTextBox, it.Left);
                 Canvas.SetTop(moveableTextBox, it.Top);
                 this.canvasInScroll.Children.Add(moveableTextBox);
+                sw.WriteLine(it.Text);
+                sw.WriteLine("========");
             }
 
+            sw.Close();
+            fs.Close();
 
-            //Debug.Print("==================");
-            //for(int i = 0; i < boundingTextList.Count; i++)
-            //{
-            //    TextBox childTextBlock = new TextBox();
-            //    childTextBlock.Text = boundingTextList[i].Text;
-            //    Debug.Print(boundingTextList[i].Text);
-            //    childTextBlock.TextWrapping = TextWrapping.Wrap;
-            //    childTextBlock.Width = boundingTextList[i].Width+30;
-            //    if (boundingTextList[i].Height <30)
-            //    {
-            //        childTextBlock.Height = 30;
-            //    }
-            //    else
-            //    {
-            //        childTextBlock.Height = boundingTextList[i].Height;
-            //    }
-            //    childTextBlock.Name = "boundingTextBox" + i.ToString();
-            //    System.Windows.Shapes.Rectangle rectAngle = new System.Windows.Shapes.Rectangle();
-            //    rectAngle.Stroke = new SolidColorBrush(Colors.Black);
-            //    rectAngle.Width = boundingTextList[i].Width+20;
-            //    rectAngle.Height = boundingTextList[i].Height+20;
-            //    float bairitu = 1.8f;
-            //    Canvas.SetLeft(rectAngle, boundingTextList[i].Left*bairitu);
-            //    Canvas.SetTop(rectAngle, boundingTextList[i].Top*bairitu);
-            //    Canvas.SetLeft(childTextBlock, boundingTextList[i].Left*bairitu);
-            //    Canvas.SetTop(childTextBlock, boundingTextList[i].Top*bairitu);
-            //    this.canvasInScroll.Children.Add(rectAngle);
-            //    this.canvasInScroll.Children.Add(childTextBlock);
-            //}
             Debug.Print("==================");
         }
 
