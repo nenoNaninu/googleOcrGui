@@ -15,6 +15,7 @@ namespace googoleOcr
             this.Height = height;
             this.Top = top;
             this.Left = left;
+            
         }
         public string Text { get; set; }
         public int Width { get; set; }

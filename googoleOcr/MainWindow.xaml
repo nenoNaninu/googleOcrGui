@@ -31,13 +31,13 @@
             <Button x:Name="Openfile_button" Content="OpenFile" Click="Openfile_button_Click"/>
             <Button x:Name="OcrButton" Content="start ocr" Click="Button_Click" Width="57"/>
         </StackPanel>
-        
+
         <ScrollViewer x:Name="ScrollView" Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" VerticalScrollBarVisibility ="Visible" HorizontalScrollBarVisibility ="Visible">
             <Canvas x:Name="CanvasInScrollView" Height="{Binding CanvasHeight}" Width="{Binding CanvasWidth}">
                 <Canvas.RenderTransform>
                     <ScaleTransform ScaleX="{Binding CanvasScale,UpdateSourceTrigger=PropertyChanged}" ScaleY="{Binding CanvasScale,UpdateSourceTrigger=Explicit}"/>
                 </Canvas.RenderTransform>
-                
+
                 <!--<Thumb Canvas.Left="31" Canvas.Top="84" Height="70" Name="mark"  Width="70" Background="LightBlue"
                     DragCompleted="mark_DragCompleted"
                     DragStarted="mark_DragStarted"
@@ -53,6 +53,7 @@
                     </Thumb.Template>
                 </Thumb>-->
                 <!--<MoveableTextbox/>-->
+                <!--<local:MoveableTextbox/>-->
             </Canvas>
         </ScrollViewer>
     </Grid>
