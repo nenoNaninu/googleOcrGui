@@ -20,6 +20,9 @@ namespace googoleOcr
         Model model;
         ScrollViewer scrollView;
         Canvas canvasInScroll;
+
+        string selectedFilename = null;
+
         public ViewModel(ScrollViewer scrollView, Canvas canvasInScroll)
         {
             this.scrollView = scrollView;
@@ -75,5 +78,7 @@ namespace googoleOcr
         {
             PropertyChanged(this, new PropertyChangedEventArgs(name));
         }
+
+        public DelegateCommand SelectFileCommand { get; set; }
     }
 }
