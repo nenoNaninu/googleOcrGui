@@ -79,6 +79,6 @@ namespace googoleOcr
             PropertyChanged(this, new PropertyChangedEventArgs(name));
         }
 
-        public DelegateCommand SelectFileCommand { get; set; }
+        public DelegateCommand SelectFileCommand { get;}
     }
 }
