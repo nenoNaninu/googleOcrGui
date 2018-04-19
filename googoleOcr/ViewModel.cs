@@ -116,16 +116,7 @@ namespace googoleOcr
 
         private bool CanExcuteOcr()
         {
-            //return this.SelectedFilename.Value == null ? false : true;
-            if (this.SelectedFilename.Value == null)
-            {
-                return false;
-            }
-            else
-            {
-                return true;
-            }
+            return this.SelectedFilename.Value == null ? false : true;
         }
-
     }
 }
