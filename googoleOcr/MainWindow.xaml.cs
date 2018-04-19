@@ -24,30 +24,12 @@ namespace googoleOcr
     public partial class MainWindow : Window
     {
         ViewModel viewModel;
-        string fileName = null;
 
         public MainWindow()
         {
             InitializeComponent();
             viewModel = new ViewModel(ScrollView, CanvasInScrollView);
             this.DataContext = this.viewModel;
-            OcrButton.IsEnabled = false;
-        }
-
-        private void Openfile_button_Click(object sender, RoutedEventArgs e)
-        {
-            var dialog = new CommonOpenFileDialog("フォルダの選択");
-            if (dialog.ShowDialog() == CommonFileDialogResult.Ok)
-            {
-                this.fileName = dialog.FileName;
-                OcrButton.IsEnabled = true;
-            }
-        }
-
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-            this.CanvasInScrollView.Children.Clear();
-            viewModel.excuteGoogleOcr(this.fileName);
         }
     }
 }
