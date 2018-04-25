@@ -85,6 +85,10 @@
       <HintPath>..\packages\Grpc.Core.1.7.1\lib\net45\Grpc.Core.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Magick.NET-Q16-AnyCPU, Version=7.4.4.0, Culture=neutral, PublicKeyToken=2004825badfa91ec, processorArchitecture=MSIL">
+      <HintPath>..\packages\Magick.NET-Q16-AnyCPU.7.4.4\lib\net40\Magick.NET-Q16-AnyCPU.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Microsoft.WindowsAPICodePack, Version=1.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.WindowsAPICodePack.Core.1.1.0\lib\Microsoft.WindowsAPICodePack.dll</HintPath>
       <Private>True</Private>

@@ -48,26 +48,12 @@ namespace googoleOcr
 
         List<MoveableTextbox> moveableTextBoxList = new List<MoveableTextbox>();
 
-        void Write2FileOcrResult(List<BoundingText> list)
-        {
-            FileStream fs = new FileStream("ocrResult.txt", FileMode.Create);
-            StreamWriter sw = new StreamWriter(fs);
 
-            foreach (var it in list)
-            {
-                sw.WriteLine(it.Text);
-                sw.WriteLine("========");
-            }
-
-            sw.Close();
-            fs.Close();
-        }
 
         public void excuteGoogleOcr(string fileName)
         {
             Model model = new Model(this);
             var boundingTextList = model.GetOcrData(fileName);
-            Write2FileOcrResult(boundingTextList);
             for (int i = 0; i < boundingTextList.Count; i++)
             {
                 MoveableTextbox moveableTextBox = new MoveableTextbox();
@@ -92,6 +78,10 @@ namespace googoleOcr
         private void SelectFileExcute()
         {
             var dialog = new CommonOpenFileDialog("フォルダの選択");
+            //CommonFileDialogFilterCollection filters = new CommonFileDialogFilterCollection();
+            //filters.Add(new CommonFileDialogFilter("Rich Text Files (*.rtf)", ".rtf"));
+            //dialog.Filters = filters;
+            //dialog.Filters.Add(new CommonFileDialogFilter("jpg",))
             if (dialog.ShowDialog() == CommonFileDialogResult.Ok)
             {
                 this.SelectedFilename.Value = dialog.FileName;

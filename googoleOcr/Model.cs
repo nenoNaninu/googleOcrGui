@@ -7,6 +7,8 @@ using Google.Cloud.Vision.V1;
 using System.Windows;
 using System.Diagnostics;
 using sysDraw = System.Drawing;
+using System.IO;
+using ImageMagick;
 
 namespace googoleOcr
 {
@@ -26,20 +28,42 @@ namespace googoleOcr
             this.boundingTextList = new List<BoundingText>();
         }
 
-        public List<BoundingText> GetOcrData(string fileName)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="fileName">選択されたpdfのフルパス</param>
+        private void OcrPdfData(string fileName)
         {
+            MagickReadSettings setting = new MagickReadSettings();
+            setting.Density = new Density(300, 300);
+            MagickImageCollection imgs = new MagickImageCollection(fileName, setting);
 
+            var pdfname = Path.GetFileNameWithoutExtension(fileName);
+            var dirFullpath = Path.GetDirectoryName(fileName);
+
+            for (int i = 0, n = imgs.Count; i < n; i++)
+            {
+                string pngName = string.Format("{0}-{1}--.png", pdfname, i);
+                imgs[i].Write(dirFullpath + "\\" + pngName);
+                this.boundingTextList.Clear();
+                OcrImageData(dirFullpath + "\\" + pngName);
+            }
+        }
+
+
+        private void OcrImageData(string fileName)
+        {
             sysDraw.Image img = new sysDraw.Bitmap(fileName);
             float bairitu = 1.8f;
-            this.parentViewModel.CanvasWidth.Value = (int)(img.Width*bairitu);
-            this.parentViewModel.CanvasHeight.Value = (int)(img.Height*bairitu);
-            
+            this.parentViewModel.CanvasWidth.Value = (int)(img.Width * bairitu);
+            this.parentViewModel.CanvasHeight.Value = (int)(img.Height * bairitu);
+
             ImageAnnotatorClient client = ImageAnnotatorClient.Create();
             var imageForGoogle = Image.FromFile(fileName);
             TextAnnotation response = client.DetectDocumentText(imageForGoogle);
             foreach (var page in response.Pages)
             {
-                foreach(var block in page.Blocks)
+                foreach (var block in page.Blocks)
                 {
                     string box = string.Join(" - ", block.BoundingBox.Vertices.Select(v => $"({v.X}, {v.Y})"));
                     Debug.Print($"Block {block.BlockType} at {box}");
@@ -61,7 +85,42 @@ namespace googoleOcr
                     }
                 }
             }
+            Write2FileOcrResult(this.boundingTextList, fileName);
+        }
+
+        public List<BoundingText> GetOcrData(string fileName)
+        {
+            var extension = Path.GetExtension(fileName);
+            if (extension == ".pdf")
+            {
+                OcrPdfData(fileName);
+            }
+            else
+            {
+                OcrImageData(fileName);
+            }
             return this.boundingTextList;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="list"></param>
+        /// <param name="fileName">処理を行っているファイルのフルパス</param>
+        void Write2FileOcrResult(List<BoundingText> list, string fileName)
+        {
+            string fileNameWithoutEx = Path.GetFileNameWithoutExtension(fileName);
+            string dirFullpath = Path.GetDirectoryName(fileName);
+            FileStream fs = new FileStream(dirFullpath+"\\"+fileNameWithoutEx + "ocrResult.txt", FileMode.Create);
+            StreamWriter sw = new StreamWriter(fs);
+            foreach (var it in list)
+            {
+                sw.WriteLine(it.Text);
+                sw.WriteLine("========");
+            }
+
+            sw.Close();
+            fs.Close();
         }
     }
 }
