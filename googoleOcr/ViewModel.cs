@@ -149,7 +149,5 @@ namespace googoleOcr
         public ReactiveProperty<int> ProgressBarValueMax { get; set; } = new ReactiveProperty<int>(100);
         public ReactiveProperty<int> ProgressValue { get; set; } = new ReactiveProperty<int>(0);
 
-        
-
     }
 }

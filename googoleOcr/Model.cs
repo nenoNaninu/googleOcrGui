@@ -67,6 +67,10 @@ namespace googoleOcr
             ImageAnnotatorClient client = ImageAnnotatorClient.Create();
             var imageForGoogle = Image.FromFile(fileName);
             TextAnnotation response = client.DetectDocumentText(imageForGoogle);
+            if(response == null)
+            {
+                return;
+            }
             foreach (var page in response.Pages)
             {
                 foreach (var block in page.Blocks)
