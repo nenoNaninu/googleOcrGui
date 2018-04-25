@@ -23,13 +23,14 @@ namespace googoleOcr
     /// </summary>
     public partial class MainWindow : Window
     {
-        ViewModel viewModel;
+        //ViewModel viewModel;
 
         public MainWindow()
         {
             InitializeComponent();
-            viewModel = new ViewModel(ScrollView, CanvasInScrollView);
-            this.DataContext = this.viewModel;
+            //viewModel = new ViewModel(ScrollView, CanvasInScrollView);
+            //this.DataContext = this.viewModel;
+            this.DataContext = new ViewModel();
         }
     }
 }

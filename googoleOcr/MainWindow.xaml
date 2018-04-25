@@ -8,7 +8,7 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="350" Width="525">
 
-    <Window.Resources>
+    <!--<Window.Resources>
         <x:Array x:Key="ScaleItems" Type="sys:Int32">
             <sys:Int32>200</sys:Int32>
             <sys:Int32>100</sys:Int32>
@@ -39,5 +39,25 @@
                 </Canvas.RenderTransform>
             </Canvas>
         </ScrollViewer>
+    </Grid>-->
+    <!--<Window.DataContext>
+        <local:ViewModel/>
+    </Window.DataContext>-->
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="0.2*"/>
+            <ColumnDefinition Width="0.8*"/>
+        </Grid.ColumnDefinitions>
+        <Button x:Name="Openfile_button" Content="OpenFile" Command="{Binding SelectFileCommand}"/>
+        <Button Grid.Row="1" Content="selectDstDir" Command="{Binding SelectDstDirCommand}"/>
+        <Button Grid.Row="2" x:Name="OcrButton" Content="start ocr" Command="{Binding ExcuteOcrCommand}" />
+        <TextBlock Grid.Column="1" Text ="{Binding SelectedFilename.Value,Mode=TwoWay}" VerticalAlignment="Center" HorizontalAlignment="Left"/>
+        <TextBlock Grid.Row="1" Grid.Column="1" Text ="{Binding SelectedDstDir.Value,Mode=TwoWay}" VerticalAlignment="Center" HorizontalAlignment="Left"/>
+
     </Grid>
 </Window>

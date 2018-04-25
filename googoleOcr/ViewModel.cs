@@ -19,7 +19,8 @@ namespace googoleOcr
         ScrollViewer scrollView;
         Canvas canvasInScroll;
 
-        private ReactiveProperty<string> SelectedFilename { get; set; }= new ReactiveProperty<string>();
+        public ReactiveProperty<string> SelectedFilename { get; set; } = new ReactiveProperty<string>("");
+        public ReactiveProperty<string> SelectedDstDir { get; set; } = new ReactiveProperty<string>("");
 
         public ViewModel(ScrollViewer scrollView, Canvas canvasInScroll)
         {
@@ -35,9 +36,14 @@ namespace googoleOcr
                 CanvasHeight.Value = (int)(CanvasScale.Value * scrollView.ActualHeight);
             });
             SelectFileCommand = new DelegateCommand(SelectFileExcute, CanOpenFileDiaolg);
-            ExcuteOcrCommand = new DelegateCommand(ExcuteOcr,CanExcuteOcr);
+            ExcuteOcrCommand = new DelegateCommand(ExcuteOcr, CanExcuteOcr);
         }
-
+        public ViewModel()
+        {
+            SelectFileCommand = new DelegateCommand(SelectFileExcute, CanOpenFileDiaolg);
+            ExcuteOcrCommand = new DelegateCommand(ExcuteOcr, CanExcuteOcr);
+            SelectDstDirCommand = new DelegateCommand(SelectDstDir, CanSelectDstDir);
+        }
         public ReactiveProperty<int> CanvasHeight { get; set; } = new ReactiveProperty<int>();
 
         public ReactiveProperty<int> CanvasWidth { get; set; } = new ReactiveProperty<int>();
@@ -77,7 +83,7 @@ namespace googoleOcr
 
         private void SelectFileExcute()
         {
-            var dialog = new CommonOpenFileDialog("フォルダの選択");
+            var dialog = new CommonOpenFileDialog("ファイルの選択");
             //CommonFileDialogFilterCollection filters = new CommonFileDialogFilterCollection();
             //filters.Add(new CommonFileDialogFilter("Rich Text Files (*.rtf)", ".rtf"));
             //dialog.Filters = filters;
@@ -85,6 +91,7 @@ namespace googoleOcr
             if (dialog.ShowDialog() == CommonFileDialogResult.Ok)
             {
                 this.SelectedFilename.Value = dialog.FileName;
+                this.SelectedDstDir.Value = Path.GetDirectoryName(dialog.FileName);
             }
         }
 
@@ -99,14 +106,34 @@ namespace googoleOcr
 
         private void ExcuteOcr()
         {
+            canOpenFileDialog = false;
             this.canvasInScroll.Children.Clear();
             excuteGoogleOcr(this.SelectedFilename.Value);
             this.SelectedFilename.Value = null;
+            canOpenFileDialog = true;
         }
 
         private bool CanExcuteOcr()
         {
             return this.SelectedFilename.Value == null ? false : true;
         }
+
+        public DelegateCommand SelectDstDirCommand { get;}
+
+        private void SelectDstDir()
+        {
+            var dialog = new CommonOpenFileDialog("フォルダの選択");
+            dialog.IsFolderPicker = true;
+            if (dialog.ShowDialog() == CommonFileDialogResult.Ok)
+            {
+                this.SelectedDstDir.Value = dialog.FileName;
+            }
+        }
+
+        private bool CanSelectDstDir()
+        {
+            return this.canOpenFileDialog;
+        }
+        
     }
 }
