@@ -21,7 +21,6 @@ namespace googoleOcr
 
         public ReactiveProperty<string> SelectedFilename { get; set; } = new ReactiveProperty<string>("");
         public ReactiveProperty<string> SelectedDstDir { get; set; } = new ReactiveProperty<string>("");
-
         public ViewModel(ScrollViewer scrollView, Canvas canvasInScroll)
         {
             this.scrollView = scrollView;
@@ -57,6 +56,15 @@ namespace googoleOcr
         private async Task excuteGoogleOcr(string fileName, string dstDir)
         {
             Model model = new Model(this);
+            model.MaxValue.Subscribe(x =>
+            {
+                this.ProgressBarValueMax.Value = x;
+            });
+
+            model.ProgressValue.Subscribe(x =>
+            {
+                this.ProgressValue.Value = x;
+            });
             var boundingTextList = await model.GetOcrData(fileName, dstDir);
             //for (int i = 0; i < boundingTextList.Count; i++)
             //{
@@ -110,6 +118,9 @@ namespace googoleOcr
             this.SelectedFilename.Value = null;
             this.SelectedDstDir.Value = null;
             canOpenFileDialog = true;
+            ProgressBarValueMax.Value = 100;
+            ProgressValue.Value = 0;
+            MessageBox.Show("終了しました");
         }
 
         private bool CanExcuteOcr()
@@ -134,8 +145,11 @@ namespace googoleOcr
             return this.canOpenFileDialog;
         }
 
-        public ReactiveProperty<int> ProgressBarValueMax = new ReactiveProperty<int>(100);
-        public ReactiveProperty<int> ProgressValue = new ReactiveProperty<int>(0);
+        //これ以降プログレスバー関係。
+        public ReactiveProperty<int> ProgressBarValueMax { get; set; } = new ReactiveProperty<int>(100);
+        public ReactiveProperty<int> ProgressValue { get; set; } = new ReactiveProperty<int>(0);
+
+        
 
     }
 }

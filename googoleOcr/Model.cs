@@ -9,6 +9,7 @@ using System.Diagnostics;
 using sysDraw = System.Drawing;
 using System.IO;
 using ImageMagick;
+using Reactive.Bindings;
 
 namespace googoleOcr
 {
@@ -16,6 +17,9 @@ namespace googoleOcr
     {
         List<BoundingText> boundingTextList = null;
         ViewModel parentViewModel = null;
+
+        public ReactiveProperty<int> MaxValue { get; set; } = new ReactiveProperty<int>(100);
+        public ReactiveProperty<int> ProgressValue { get; set; } = new ReactiveProperty<int>(0);
 
         public List<BoundingText> BoundingTextList
         {
@@ -40,9 +44,11 @@ namespace googoleOcr
 
             var pdfname = Path.GetFileNameWithoutExtension(fileName);
             var dirFullpath = Path.GetDirectoryName(fileName);
-
+            this.MaxValue.Value = imgs.Count -1;
+            this.ProgressValue.Value = 0;
             for (int i = 0, n = imgs.Count; i < n; i++)
             {
+                this.ProgressValue.Value = i;
                 string pngName = string.Format("{0}-{1}--.png", pdfname, i);
                 imgs[i].Write(dstDir + "\\" + pngName);
                 this.boundingTextList.Clear();
