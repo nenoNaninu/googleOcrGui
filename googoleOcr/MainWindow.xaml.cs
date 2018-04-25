@@ -30,7 +30,7 @@ namespace googoleOcr
             InitializeComponent();
             //viewModel = new ViewModel(ScrollView, CanvasInScrollView);
             //this.DataContext = this.viewModel;
-            this.DataContext = new ViewModel();
+            //this.DataContext = new ViewModel();
         }
     }
 }

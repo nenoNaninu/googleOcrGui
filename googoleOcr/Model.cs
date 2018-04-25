@@ -32,7 +32,7 @@ namespace googoleOcr
         /// 
         /// </summary>
         /// <param name="fileName">選択されたpdfのフルパス</param>
-        private void OcrPdfData(string fileName)
+        private void OcrPdfData(string fileName,string dstDir)
         {
             MagickReadSettings setting = new MagickReadSettings();
             setting.Density = new Density(300, 300);
@@ -44,14 +44,14 @@ namespace googoleOcr
             for (int i = 0, n = imgs.Count; i < n; i++)
             {
                 string pngName = string.Format("{0}-{1}--.png", pdfname, i);
-                imgs[i].Write(dirFullpath + "\\" + pngName);
+                imgs[i].Write(dstDir + "\\" + pngName);
                 this.boundingTextList.Clear();
-                OcrImageData(dirFullpath + "\\" + pngName);
+                OcrImageData(dstDir + "\\" + pngName,dstDir);
             }
         }
 
 
-        private void OcrImageData(string fileName)
+        private void OcrImageData(string fileName,string dstDir)
         {
             sysDraw.Image img = new sysDraw.Bitmap(fileName);
             float bairitu = 1.8f;
@@ -85,19 +85,25 @@ namespace googoleOcr
                     }
                 }
             }
-            Write2FileOcrResult(this.boundingTextList, fileName);
+            Write2FileOcrResult(this.boundingTextList, fileName,dstDir);
         }
 
-        public List<BoundingText> GetOcrData(string fileName)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="fileName">OCRしたいデータのフルパス</param>
+        /// <param name="dstDir">出力したいディレクトリのフルパス</param>
+        /// <returns></returns>
+        public List<BoundingText> GetOcrData(string fileName,string dstDir)
         {
             var extension = Path.GetExtension(fileName);
             if (extension == ".pdf")
             {
-                OcrPdfData(fileName);
+                OcrPdfData(fileName,dstDir);
             }
             else
             {
-                OcrImageData(fileName);
+                OcrImageData(fileName,dstDir);
             }
             return this.boundingTextList;
         }
@@ -107,11 +113,11 @@ namespace googoleOcr
         /// </summary>
         /// <param name="list"></param>
         /// <param name="fileName">処理を行っているファイルのフルパス</param>
-        void Write2FileOcrResult(List<BoundingText> list, string fileName)
+        void Write2FileOcrResult(List<BoundingText> list, string fileName,string dstDir)
         {
             string fileNameWithoutEx = Path.GetFileNameWithoutExtension(fileName);
             string dirFullpath = Path.GetDirectoryName(fileName);
-            FileStream fs = new FileStream(dirFullpath+"\\"+fileNameWithoutEx + "ocrResult.txt", FileMode.Create);
+            FileStream fs = new FileStream(dstDir+"\\"+fileNameWithoutEx + "ocrResult.txt", FileMode.Create);
             StreamWriter sw = new StreamWriter(fs);
             foreach (var it in list)
             {

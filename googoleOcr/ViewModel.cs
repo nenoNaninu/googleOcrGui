@@ -56,20 +56,20 @@ namespace googoleOcr
 
 
 
-        public void excuteGoogleOcr(string fileName)
+        private void excuteGoogleOcr(string fileName,string dstDir)
         {
             Model model = new Model(this);
-            var boundingTextList = model.GetOcrData(fileName);
-            for (int i = 0; i < boundingTextList.Count; i++)
-            {
-                MoveableTextbox moveableTextBox = new MoveableTextbox();
-                moveableTextBoxList.Add(moveableTextBox);
-                var it = boundingTextList[i];
-                moveableTextBox.SetProperty(it.Top, it.Left, it.Height, it.Width, it.Text);
-                Canvas.SetLeft(moveableTextBox, it.Left);
-                Canvas.SetTop(moveableTextBox, it.Top);
-                this.canvasInScroll.Children.Add(moveableTextBox);
-            }
+            var boundingTextList = model.GetOcrData(fileName,dstDir);
+            //for (int i = 0; i < boundingTextList.Count; i++)
+            //{
+            //    MoveableTextbox moveableTextBox = new MoveableTextbox();
+            //    moveableTextBoxList.Add(moveableTextBox);
+            //    var it = boundingTextList[i];
+            //    moveableTextBox.SetProperty(it.Top, it.Left, it.Height, it.Width, it.Text);
+            //    Canvas.SetLeft(moveableTextBox, it.Left);
+            //    Canvas.SetTop(moveableTextBox, it.Top);
+            //    this.canvasInScroll.Children.Add(moveableTextBox);
+            //}
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -107,9 +107,10 @@ namespace googoleOcr
         private void ExcuteOcr()
         {
             canOpenFileDialog = false;
-            this.canvasInScroll.Children.Clear();
-            excuteGoogleOcr(this.SelectedFilename.Value);
+            //this.canvasInScroll.Children.Clear();
+            excuteGoogleOcr(this.SelectedFilename.Value,this.SelectedDstDir.Value);
             this.SelectedFilename.Value = null;
+            this.SelectedDstDir.Value = null;
             canOpenFileDialog = true;
         }
 
