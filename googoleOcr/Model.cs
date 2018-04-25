@@ -94,17 +94,20 @@ namespace googoleOcr
         /// <param name="fileName">OCRしたいデータのフルパス</param>
         /// <param name="dstDir">出力したいディレクトリのフルパス</param>
         /// <returns></returns>
-        public List<BoundingText> GetOcrData(string fileName,string dstDir)
+        public async Task<List<BoundingText>> GetOcrData(string fileName, string dstDir)
         {
-            var extension = Path.GetExtension(fileName);
-            if (extension == ".pdf")
+            await Task.Run(() =>
             {
-                OcrPdfData(fileName,dstDir);
-            }
-            else
-            {
-                OcrImageData(fileName,dstDir);
-            }
+                var extension = Path.GetExtension(fileName);
+                if (extension == ".pdf")
+                {
+                    OcrPdfData(fileName, dstDir);
+                }
+                else
+                {
+                    OcrImageData(fileName, dstDir);
+                }
+            });
             return this.boundingTextList;
         }
 

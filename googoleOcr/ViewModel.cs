@@ -54,12 +54,10 @@ namespace googoleOcr
 
         List<MoveableTextbox> moveableTextBoxList = new List<MoveableTextbox>();
 
-
-
-        private void excuteGoogleOcr(string fileName,string dstDir)
+        private async Task excuteGoogleOcr(string fileName, string dstDir)
         {
             Model model = new Model(this);
-            var boundingTextList = model.GetOcrData(fileName,dstDir);
+            var boundingTextList = await model.GetOcrData(fileName, dstDir);
             //for (int i = 0; i < boundingTextList.Count; i++)
             //{
             //    MoveableTextbox moveableTextBox = new MoveableTextbox();
@@ -104,11 +102,11 @@ namespace googoleOcr
 
         public DelegateCommand ExcuteOcrCommand { get; }
 
-        private void ExcuteOcr()
+        private async void ExcuteOcr()
         {
             canOpenFileDialog = false;
             //this.canvasInScroll.Children.Clear();
-            excuteGoogleOcr(this.SelectedFilename.Value,this.SelectedDstDir.Value);
+            await excuteGoogleOcr(this.SelectedFilename.Value, this.SelectedDstDir.Value);
             this.SelectedFilename.Value = null;
             this.SelectedDstDir.Value = null;
             canOpenFileDialog = true;
@@ -135,6 +133,9 @@ namespace googoleOcr
         {
             return this.canOpenFileDialog;
         }
-        
+
+        public ReactiveProperty<int> ProgressBarValueMax = new ReactiveProperty<int>(100);
+        public ReactiveProperty<int> ProgressValue = new ReactiveProperty<int>(0);
+
     }
 }

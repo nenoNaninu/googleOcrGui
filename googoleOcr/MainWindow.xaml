@@ -58,5 +58,6 @@
         <Button Grid.Row="2" x:Name="OcrButton" Content="start ocr" Command="{Binding ExcuteOcrCommand}" />
         <TextBlock Grid.Column="1" Text ="{Binding SelectedFilename.Value,Mode=TwoWay}" VerticalAlignment="Center" HorizontalAlignment="Left"/>
         <TextBlock Grid.Row="1" Grid.Column="1" Text ="{Binding SelectedDstDir.Value,Mode=TwoWay}" VerticalAlignment="Center" HorizontalAlignment="Left"/>
+        <ProgressBar Grid.Row="2" Grid.Column="1" Minimum="0" Maximum="{Binding ProgressBarValueMax.Value}" Value="{Binding ProgressValue.Value}"/>
     </Grid>
 </Window>
