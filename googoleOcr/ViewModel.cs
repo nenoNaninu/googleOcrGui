@@ -19,7 +19,7 @@ namespace googoleOcr
         ScrollViewer scrollView;
         Canvas canvasInScroll;
 
-        public ReactiveProperty<string> SelectedFilename { get; set; } = new ReactiveProperty<string>("");
+        public ReactiveProperty<string> SelectedFilename { get; set; } = new ReactiveProperty<string>();
         public ReactiveProperty<string> SelectedDstDir { get; set; } = new ReactiveProperty<string>("");
         public ViewModel(ScrollViewer scrollView, Canvas canvasInScroll)
         {
