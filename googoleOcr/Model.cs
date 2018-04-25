@@ -41,7 +41,7 @@ namespace googoleOcr
             MagickReadSettings setting = new MagickReadSettings();
             setting.Density = new Density(300, 300);
             MagickImageCollection imgs = new MagickImageCollection(fileName, setting);
-
+            
             var pdfname = Path.GetFileNameWithoutExtension(fileName);
             var dirFullpath = Path.GetDirectoryName(fileName);
             this.MaxValue.Value = imgs.Count -1;
@@ -52,8 +52,9 @@ namespace googoleOcr
                 string pngName = string.Format("{0}-{1}--.png", pdfname, i);
                 imgs[i].Write(dstDir + "\\" + pngName);
                 this.boundingTextList.Clear();
-                OcrImageData(dstDir + "\\" + pngName,dstDir);
+                OcrImageData(dstDir + "\\" + pngName, dstDir);
             }
+            imgs.Clear();
         }
 
 
@@ -63,7 +64,7 @@ namespace googoleOcr
             float bairitu = 1.8f;
             this.parentViewModel.CanvasWidth.Value = (int)(img.Width * bairitu);
             this.parentViewModel.CanvasHeight.Value = (int)(img.Height * bairitu);
-
+            
             ImageAnnotatorClient client = ImageAnnotatorClient.Create();
             var imageForGoogle = Image.FromFile(fileName);
             TextAnnotation response = client.DetectDocumentText(imageForGoogle);
@@ -85,7 +86,7 @@ namespace googoleOcr
                         foreach (var word in paragraph.Words)
                         {
                             Debug.Print($"    Word: {string.Join("", word.Symbols.Select(s => s.Text))}");
-                            text += string.Join("", word.Symbols.Select(s => s.Text));
+                            text += string.Join("", word.Symbols.Select(s => s.Text))+" ";
                         }
                         int top = paragraph.BoundingBox.Vertices[0].Y;
                         int left = paragraph.BoundingBox.Vertices[0].X;
